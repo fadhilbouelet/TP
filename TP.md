@@ -860,7 +860,6 @@ To run a command as administrator (user "root"), use "sudo <command>".
 See "man sudo_root" for details.
 
 azureuser@super-vm:~$
-
 ```
 
     changement de port :
@@ -914,6 +913,7 @@ LISTEN    0         128                   [::]:2222                [::]:*       
  PS C:\Users\Fadhil\terraform> ssh -p 2222 azureuser@4.211.175.88
 ssh: connect to host 4.211.175.88 port 2222: Connection timed out
 ```
+
 
 
 

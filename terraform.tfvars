@@ -1,0 +1,7 @@
+resource_group_name = "mon-projet"
+admin_username = "azureuser"
+public_key_path = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ0hOBkvbSiLmeoHEoX9r/zo0C9pNd45QCq0PQh2kBYH TP1 Cloud"
+location = "france central"
+subscription_id = "11a3389f-d095-47e7-b620-80db81a05f5c"
+admin_password = "FADHIL"
+my_public_ip = "4.211.175.88"

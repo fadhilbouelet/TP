@@ -994,6 +994,63 @@ public_dns = "monvm-ssh-demo.francecentral.cloudapp.azure.com"
 public_ip = "4.211.175.88"
 ```
 
+3. Proooofs !¶
+
+🌞 Proofs ! Donnez moi :
+
+   🌞 la sortie du terraform apply (ce qu'affiche votre outputs.tf)
+
+    🌞une commande ssh fonctionnelle vers le nom de domaine (pas l'IP)
+       🌞 vers le nom de domaine de la publique
+        toujours sans mot de passe avec votre Agent SSH
+
+```
+PS C:\Users\Fadhil\terraform> ssh azureuser@4.211.175.88 -i C:\Users\Fadhil\.ssh\id_ed25519
+ssh: connect to host 4.211.175.88 port 22: Connection refused
+PS C:\Users\Fadhil\terraform>
+>> ssh-add C:\Users\Fadhil\.ssh\id_ed25519
+>> Start-Service ssh-agent
+Identity added: C:\Users\Fadhil\.ssh\id_ed25519 (fadhil@DESKTOP-GQR9FCC)
+PS C:\Users\Fadhil\terraform> ssh -p 2222 azureuser@monvm-ssh-demo.francecentral.cloudapp.azure.com
+The authenticity of host '[monvm-ssh-demo.francecentral.cloudapp.azure.com]:2222 ([4.211.175.88]:2222)' can't be established.
+ED25519 key fingerprint is SHA256:89UPd323P9TWcxh7TWAw0XxhLq9uJuCE554YHDQOlQQ.
+This host key is known by the following other names/addresses:
+    C:\Users\Fadhil/.ssh/known_hosts:7: 4.211.175.88
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '[monvm-ssh-demo.francecentral.cloudapp.azure.com]:2222' (ED25519) to the list of known hosts.
+Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.15.0-1089-azure x86_64)
+
+ * Documentation:  https://help.ubuntu.com
+ * Management:     https://landscape.canonical.com
+ * Support:        https://ubuntu.com/pro
+
+ System information as of Mon Sep 15 12:33:01 UTC 2025
+
+  System load:  0.0               Processes:             110
+  Usage of /:   5.5% of 28.89GB   Users logged in:       0
+  Memory usage: 30%               IPv4 address for eth0: 10.0.1.4
+  Swap usage:   0%
+
+
+Expanded Security Maintenance for Applications is not enabled.
+
+0 updates can be applied immediately.
+
+Enable ESM Apps to receive additional future security updates.
+See https://ubuntu.com/esm or run: sudo pro status
+
+
+The list of available updates is more than a week old.
+To check for new updates run: sudo apt update
+New release '22.04.5 LTS' available.
+Run 'do-release-upgrade' to upgrade to it.
+
+
+Last login: Mon Sep 15 11:11:59 2025 from 77.136.67.139
+azureuser@super-vm:~$
+```
+
+
 
 
 

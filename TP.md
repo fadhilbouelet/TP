@@ -620,11 +620,11 @@ Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
 
  🌞Ajouter un NSG à votre déploiement Terraform
 
-    le trafic qui arrive sur l'interface réseau de la VM qui porte l'IP publique doit être filtré :
+🌞le trafic qui arrive sur l'interface réseau de la VM qui porte l'IP publique doit être filtré :
         n'autorise les connexions que sur le port 22 (pour SSH)
         n'autorise les connexions que depuis votre IP publique
 
-    je vous recommande de créer un nouveau fichier network.tf à côté de votre main.tf et y mettre cette conf
+🌞je vous recommande de créer un nouveau fichier network.tf à côté de votre main.tf et y mettre cette conf
 
 ```
 PS C:\Users\Fadhil\terraform> terraform init
@@ -908,6 +908,7 @@ LISTEN    0         128                   [::]:2222                [::]:*       
  PS C:\Users\Fadhil\terraform> ssh -p 2222 azureuser@4.211.175.88
 ssh: connect to host 4.211.175.88 port 2222: Connection timed out
 ```
+
 
 
 

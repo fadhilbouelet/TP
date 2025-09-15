@@ -1049,6 +1049,304 @@ Run 'do-release-upgrade' to upgrade to it.
 Last login: Mon Sep 15 11:11:59 2025 from 77.136.67.139
 azureuser@super-vm:~$
 ```
+III. Blob storage¶
+1. Intro¶
+
+➜ Azure propose du Blob Storage.
+
+Dans cette section, vous allez créer un Azure Storage Container pour profiter du Blob Storage Azure depuis votre VM.
+
+La logique Azure est la suivante :
+
+    il faut créer un Storage Account
+    avec ce Storage Account vous pourrez créer des Storage Container
+    on peut accéder à ce Storage Container depuis nos VMs autorisées
+
+➜ Une fois qu'une VM a accès à un Storage Container, elle peut écrire/lire des fichiers arbitrairement dedans.
+
+Vous verrez qu'on peut appliquer une politique d'accès et d'authentification qui permet de définir qui peut accéder à notre Storage Container.
+Note
+
+C'est idéal pour y déposer les backups par exemple ! Ou partager des données avec d'autres VMs.
+2. Let's go¶
+
+🌞 Compléter votre plan Terraform pour déployer du Blob Storage pour votre VM
+
+    je vous recommande de créer un nouveau fichier storage.tf à côté de votre main.tf
+
+```
+PS C:\Users\Fadhil\terraform> terraform init
+Initializing the backend...
+Initializing provider plugins...
+- Reusing previous version of hashicorp/azurerm from the dependency lock file
+- Using previously-installed hashicorp/azurerm v4.44.0
+
+Terraform has been successfully initialized!
+
+You may now begin working with Terraform. Try running "terraform plan" to see
+any changes that are required for your infrastructure. All Terraform commands
+should now work.
+
+If you ever set or change modules or backend configuration for Terraform,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+PS C:\Users\Fadhil\terraform> terraform apply
+PS C:\Users\Fadhil\terraform> terraform apply
+azurerm_resource_group.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet]
+azurerm_network_security_group.vm_nsg: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkSecurityGroups/mon-projet-nsg]
+azurerm_public_ip.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/publicIPAddresses/vm-ip]
+azurerm_virtual_network.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/virtualNetworks/vm-vnet]
+azurerm_subnet.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/virtualNetworks/vm-vnet/subnets/vm-subnet]
+azurerm_network_interface.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkInterfaces/vm-nic]
+azurerm_network_interface_security_group_association.nsg_association: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkInterfaces/vm-nic|/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkSecurityGroups/mon-projet-nsg]
+azurerm_linux_virtual_machine.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Compute/virtualMachines/super-vm]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # azurerm_network_security_group.vm_nsg will be updated in-place
+  ~ resource "azurerm_network_security_group" "vm_nsg" {
+        id                  = "/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkSecurityGroups/mon-projet-nsg"
+        name                = "mon-projet-nsg"
+      ~ security_rule       = [
+          - {
+              - access                                     = "Allow"
+              - destination_address_prefix                 = "*"
+              - destination_address_prefixes               = []
+              - destination_application_security_group_ids = []
+              - destination_port_range                     = "2222"
+              - destination_port_ranges                    = []
+              - direction                                  = "Inbound"
+              - name                                       = "Allow-SSH-From-My-IP"
+              - priority                                   = 1001
+              - protocol                                   = "Tcp"
+              - source_address_prefix                      = "*"
+              - source_address_prefixes                    = []
+              - source_application_security_group_ids      = []
+              - source_port_range                          = "*"
+              - source_port_ranges                         = []
+                # (1 unchanged attribute hidden)
+            },
+          + {
+              + access                                     = "Allow"
+              + destination_address_prefix                 = "*"
+              + destination_address_prefixes               = []
+              + destination_application_security_group_ids = []
+              + destination_port_range                     = "22"
+              + destination_port_ranges                    = []
+              + direction                                  = "Inbound"
+              + name                                       = "Allow-SSH-From-My-IP"
+              + priority                                   = 1001
+              + protocol                                   = "Tcp"
+              + source_address_prefix                      = "*"
+              + source_address_prefixes                    = []
+              + source_application_security_group_ids      = []
+              + source_port_range                          = "*"
+              + source_port_ranges                         = []
+                # (1 unchanged attribute hidden)
+            },
+        ]
+        tags                = {}
+        # (2 unchanged attributes hidden)
+    }
+
+  # azurerm_storage_account.main will be created
+  + resource "azurerm_storage_account" "main" {
+      + access_tier                        = (known after apply)
+      + account_kind                       = "StorageV2"
+      + account_replication_type           = "LRS"
+      + account_tier                       = "Standard"
+      + allow_nested_items_to_be_public    = true
+      + cross_tenant_replication_enabled   = false
+      + default_to_oauth_authentication    = false
+      + dns_endpoint_type                  = "Standard"
+      + https_traffic_only_enabled         = true
+      + id                                 = (known after apply)
+      + infrastructure_encryption_enabled  = false
+      + is_hns_enabled                     = false
+      + large_file_share_enabled           = (known after apply)
+      + local_user_enabled                 = true
+      + location                           = "francecentral"
+      + min_tls_version                    = "TLS1_2"
+      + name                               = "monvmstorageacct"
+      + nfsv3_enabled                      = false
+      + primary_access_key                 = (sensitive value)
+      + primary_blob_connection_string     = (sensitive value)
+      + primary_blob_endpoint              = (known after apply)
+      + primary_blob_host                  = (known after apply)
+      + primary_blob_internet_endpoint     = (known after apply)
+      + primary_blob_internet_host         = (known after apply)
+      + primary_blob_microsoft_endpoint    = (known after apply)
+      + primary_blob_microsoft_host        = (known after apply)
+      + primary_connection_string          = (sensitive value)
+      + primary_dfs_endpoint               = (known after apply)
+      + primary_dfs_host                   = (known after apply)
+      + primary_dfs_internet_endpoint      = (known after apply)
+      + primary_dfs_internet_host          = (known after apply)
+      + primary_dfs_microsoft_endpoint     = (known after apply)
+      + primary_dfs_microsoft_host         = (known after apply)
+      + primary_file_endpoint              = (known after apply)
+      + primary_file_host                  = (known after apply)
+      + primary_file_internet_endpoint     = (known after apply)
+      + primary_file_internet_host         = (known after apply)
+      + primary_file_microsoft_endpoint    = (known after apply)
+      + primary_file_microsoft_host        = (known after apply)
+      + primary_location                   = (known after apply)
+      + primary_queue_endpoint             = (known after apply)
+      + primary_queue_host                 = (known after apply)
+      + primary_queue_microsoft_endpoint   = (known after apply)
+      + primary_queue_microsoft_host       = (known after apply)
+      + primary_table_endpoint             = (known after apply)
+      + primary_table_host                 = (known after apply)
+      + primary_table_microsoft_endpoint   = (known after apply)
+      + primary_table_microsoft_host       = (known after apply)
+      + primary_web_endpoint               = (known after apply)
+      + primary_web_host                   = (known after apply)
+      + primary_web_internet_endpoint      = (known after apply)
+      + primary_web_internet_host          = (known after apply)
+      + primary_web_microsoft_endpoint     = (known after apply)
+      + primary_web_microsoft_host         = (known after apply)
+      + public_network_access_enabled      = true
+      + queue_encryption_key_type          = "Service"
+      + resource_group_name                = "mon-projet"
+      + secondary_access_key               = (sensitive value)
+      + secondary_blob_connection_string   = (sensitive value)
+      + secondary_blob_endpoint            = (known after apply)
+      + secondary_blob_host                = (known after apply)
+      + secondary_blob_internet_endpoint   = (known after apply)
+      + secondary_blob_internet_host       = (known after apply)
+      + secondary_blob_microsoft_endpoint  = (known after apply)
+      + secondary_blob_microsoft_host      = (known after apply)
+      + secondary_connection_string        = (sensitive value)
+      + secondary_dfs_endpoint             = (known after apply)
+      + secondary_dfs_host                 = (known after apply)
+      + secondary_dfs_internet_endpoint    = (known after apply)
+      + secondary_dfs_internet_host        = (known after apply)
+      + secondary_dfs_microsoft_endpoint   = (known after apply)
+      + secondary_dfs_microsoft_host       = (known after apply)
+      + secondary_file_endpoint            = (known after apply)
+      + secondary_file_host                = (known after apply)
+      + secondary_file_internet_endpoint   = (known after apply)
+      + secondary_file_internet_host       = (known after apply)
+      + secondary_file_microsoft_endpoint  = (known after apply)
+      + secondary_file_microsoft_host      = (known after apply)
+      + secondary_location                 = (known after apply)
+      + secondary_queue_endpoint           = (known after apply)
+      + secondary_queue_host               = (known after apply)
+      + secondary_queue_microsoft_endpoint = (known after apply)
+      + secondary_queue_microsoft_host     = (known after apply)
+      + secondary_table_endpoint           = (known after apply)
+      + secondary_table_host               = (known after apply)
+      + secondary_table_microsoft_endpoint = (known after apply)
+      + secondary_table_microsoft_host     = (known after apply)
+      + secondary_web_endpoint             = (known after apply)
+      + secondary_web_host                 = (known after apply)
+      + secondary_web_internet_endpoint    = (known after apply)
+      + secondary_web_internet_host        = (known after apply)
+      + secondary_web_microsoft_endpoint   = (known after apply)
+      + secondary_web_microsoft_host       = (known after apply)
+      + sftp_enabled                       = false
+      + shared_access_key_enabled          = true
+      + table_encryption_key_type          = "Service"
+
+      + blob_properties {
+          + change_feed_enabled      = false
+          + default_service_version  = (known after apply)
+          + last_access_time_enabled = false
+          + versioning_enabled       = false
+
+          + delete_retention_policy {
+              + days                     = 7
+              + permanent_delete_enabled = false
+            }
+        }
+
+      + network_rules {
+          + bypass                     = (known after apply)
+          + default_action             = "Allow"
+          + ip_rules                   = (known after apply)
+          + virtual_network_subnet_ids = (known after apply)
+        }
+
+      + queue_properties (known after apply)
+
+      + routing (known after apply)
+
+      + share_properties (known after apply)
+
+      + static_website (known after apply)
+    }
+
+  # azurerm_storage_container.main will be created
+  + resource "azurerm_storage_container" "main" {
+      + container_access_type             = "private"
+      + default_encryption_scope          = (known after apply)
+      + encryption_scope_override_enabled = true
+      + has_immutability_policy           = (known after apply)
+      + has_legal_hold                    = (known after apply)
+      + id                                = (known after apply)
+      + metadata                          = (known after apply)
+      + name                              = "moncontainer"
+      + resource_manager_id               = (known after apply)
+      + storage_account_name              = "monvmstorageacct"
+    }
+
+Plan: 2 to add, 1 to change, 0 to destroy.
+
+Changes to Outputs:
+  + storage_account_name   = "monvmstorageacct"
+  + storage_container_name = "moncontainer"
+╷
+│ Warning: Argument is deprecated
+│
+│   with azurerm_storage_container.main,
+│   on storage.tf line 24, in resource "azurerm_storage_container" "main":
+│   24:   storage_account_name  = azurerm_storage_account.main.name
+│
+│ the `storage_account_name` property has been deprecated in favour of `storage_account_id` and will be removed in version 5.0 of the Provider.
+╵
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+azurerm_network_security_group.vm_nsg: Modifying... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkSecurityGroups/mon-projet-nsg]
+azurerm_storage_account.main: Creating...
+azurerm_network_security_group.vm_nsg: Modifications complete after 2s [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkSecurityGroups/mon-projet-nsg]
+azurerm_storage_account.main: Still creating... [00m10s elapsed]
+azurerm_storage_account.main: Still creating... [00m20s elapsed]
+azurerm_storage_account.main: Still creating... [00m30s elapsed]
+azurerm_storage_account.main: Still creating... [00m40s elapsed]
+azurerm_storage_account.main: Still creating... [00m50s elapsed]
+azurerm_storage_account.main: Still creating... [01m00s elapsed]
+azurerm_storage_account.main: Creation complete after 1m8s [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Storage/storageAccounts/monvmstorageacct]
+azurerm_storage_container.main: Creating...
+azurerm_storage_container.main: Creation complete after 1s [id=https://monvmstorageacct.blob.core.windows.net/moncontainer]
+╷
+│ Warning: Argument is deprecated
+│
+│   with azurerm_storage_container.main,
+│   on storage.tf line 24, in resource "azurerm_storage_container" "main":
+│   24:   storage_account_name  = azurerm_storage_account.main.name
+│
+│ the `storage_account_name` property has been deprecated in favour of `storage_account_id` and will be removed in version 5.0 of the Provider.
+╵
+
+Apply complete! Resources: 2 added, 1 changed, 0 destroyed.
+
+Outputs:
+
+public_dns = "monvm-ssh-demo.francecentral.cloudapp.azure.com"
+public_ip = "4.211.175.88"
+storage_account_name = "monvmstorageacct"
+storage_container_name = "moncontainer"
+```
+
 
 
 

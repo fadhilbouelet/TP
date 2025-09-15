@@ -2041,8 +2041,7 @@ stress-ng: info:  [18011] successful run completed in 60.29s (1 min, 0.29 secs)
     🌞normalement t'as un mail
     🌞tu le vois dans la WebUI Azure
     🌞dans le compte-rendu, je veux une commande az qui montre que les alertes ont été levées
-
-    ```
+```
     azureuser@super-vm:~$ az monitor metrics alert list --resource-group mon-projet --output table
 AutoMitigate    Description                       Enabled    EvaluationFrequency    Location    Name                ResourceGroup    Severity    TargetResourceRegion    TargetResourceType    WindowSize
 --------------  --------------------------------  ---------  ---------------------  ----------  ------------------  ---------------  ----------  ----------------------  --------------------  ------------
@@ -2103,6 +2102,7 @@ remy.bouelet@efrei.net  1951e03a-b1d0-472e-a6f3-d53bd13edf58                 821
 remy.bouelet@efrei.net  1951e03a-b1d0-472e-a6f3-d53bd13edf58                 fe61a409-1471-4484-8f86-6da5db7f4c79  2025-09-15T15:10:34.9945664Z  Informational  1951e03a-b1d0-472e-a6f3-d53bd13edf58  mon-projet       mon-projet           /subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Storage/storageAccounts/monvmstorageacct                                         2025-09-15T15:12:18Z   11a3389f-d095-47e7-b620-80db81a05f5c  413600cf-bd4e-4c7c-8a61-69e73cddf731
 remy.bouelet@efrei.net  96b9c5d0-24d3-4f90-becb-ab78813cf039                 591ff97e-04c4-45cd-9ada-c6a0ca1017d7  2025-09-15T15:10:33.9025788Z  Informational  96b9c5d0-24d3-4f90-becb-ab78813cf039  mon-projet       mon-projet           /subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Storage/storageAccounts/monvmstorageacct                                         2025-09-15T15:12:18Z   11a3389f-d095-47e7-b620-80db81a05f5c  413600cf-bd4e-4c7c-8a61-69e73cddf731
 ```
+
 
 
 

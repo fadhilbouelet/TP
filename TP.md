@@ -14,7 +14,7 @@ elle est protégée par un mot de passe de votre choix
 
 ```
 PS C:\Windows\system32> ssh-keygen -t ed25519 -f "$env:USERPROFILE\.ssh\cloud_tp1" -C "TP1 Cloud"
-```
+
 >>
 Generating public/private ed25519 key pair.
 Enter passphrase (empty for no passphrase):
@@ -41,10 +41,12 @@ The key's randomart image is:
 
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ0hOBkvbSiLmeoHEoX9r/zo0C9pNd45QCq0PQh2kBYH TP1 Cloud
 
-***PS C:\Windows\system32> Get-Content "$env:USERPROFILE\.ssh\cloud_tp1.pub"***
+```
+PS C:\Windows\system32> Get-Content "$env:USERPROFILE\.ssh\cloud_tp1.pub"
 >>
 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ0hOBkvbSiLmeoHEoX9r/zo0C9pNd45QCq0PQh2kBYH TP1 Cloud
-***PS C:\Windows\system32> dir $env:USERPROFILE\.ssh\cloud_tp1****
+```
+PS C:\Windows\system32> dir $env:USERPROFILE\.ssh\cloud_tp1
 >>
 
 
@@ -54,7 +56,9 @@ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ0hOBkvbSiLmeoHEoX9r/zo0C9pNd45QCq0PQh2kBYH
 Mode                 LastWriteTime         Length Name
 ----                 -------------         ------ ----
 -a----        05/09/2025     14:09            444 cloud_tp1
--a----        05/09/2025     14:09             92 cloud_tp1.pub '''
+-a----        05/09/2025     14:09             92 cloud_tp1.pub
+
+'''
 
 
 C) Configurer un agent SSH sur votre poste
@@ -71,7 +75,7 @@ InstallSize  : 0
 
 
 
-***PS C:\Windows\system32> Add-WindowsCapability -Online -Name OpenSSH-Client***
+PS C:\Windows\system32> Add-WindowsCapability -Online -Name OpenSSH-Client
 
 
 Path          :
@@ -86,17 +90,18 @@ Status   Name               DisplayName
 Stopped  ssh-agent          OpenSSH Authentication Agent
 
 
-***PS C:\Windows\system32> Set-Service -Name ssh-agent -StartupType Manual***
->> ***Start-Service ssh-agent***
+PS C:\Windows\system32> Set-Service -Name ssh-agent -StartupType Manual***
+>> Start-Service ssh-agent
 >>
-***PS C:\Windows\system32> Start-Service ssh-agent***
+PS C:\Windows\system32> Start-Service ssh-agent***
 >>
-***PS C:\Windows\system32> Set-Service -Name ssh-agent -StartupType Automatic***
+PS C:\Windows\system32> Set-Service -Name ssh-agent -StartupType Automatic***
 >>
-***PS C:\Windows\system32> ssh-add "$env:USERPROFILE\.ssh\cloud_tp1"
+PS C:\Windows\system32> ssh-add "$env:USERPROFILE\.ssh\cloud_tp1"
 >>
 Enter passphrase for C:\Users\Fadhil\.ssh\cloud_tp1:
-Identity added: C:\Users\Fadhil\.ssh\cloud_tp1 (TP1 Cloud) 
+Identity added: C:\Users\Fadhil\.ssh\cloud_tp1 (TP1 Cloud)
+```
 
 🌞 Connectez-vous en SSH à la VM pour preuve
 
@@ -434,4 +439,5 @@ Sep 05 13:25:38 supervm python3[1060]: 2025-09-05T13:25:38.977108Z INFO CollectL
 Sep 05 13:25:51 supervm python3[1060]: 2025-09-05T13:25:51.654842Z INFO CollectLogsHandler ExtHandler Successfully collected logs. Archive size: 76980 b, elapsed time>Sep 05 13:25:51 supervm python3[1060]: 2025-09-05T13:25:51.674265Z INFO CollectLogsHandler ExtHandler Successfully uploaded logs.
 
 Sep 05 13:35:36 supervm python3[754]: 2025-09-05T13:35:36.537331Z INFO Daemon Agent WALinuxAgent-2.14.0.1 launched with command 'python3 -u bin/WALinuxAgent-2.14.0.1->Sep 05 13:50:40 supervm python3[1060]: 2025-09-05T13:50:40.236109Z INFO ExtHandler ExtHandler [HEARTBEAT] Agent WALinuxAgent-2.14.0.1 is running as the goal state age>~
+
 

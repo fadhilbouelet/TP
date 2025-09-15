@@ -726,14 +726,13 @@ No changes. Your infrastructure matches the configuration.
 Terraform has compared your real infrastructure against your configuration and found no differences, so no changes are needed.
 
 Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
-
 ```
 
   une commande az pour obtenir toutes les infos liées à la VM
         on doit y voir le NSG
 
-      ```
       
+        ```
         PS C:\Users\Fadhil\terraform> az vm show --resource-group mon-projet --name super-vm --show-details
 >>
 {
@@ -915,6 +914,7 @@ LISTEN    0         128                   [::]:2222                [::]:*       
  PS C:\Users\Fadhil\terraform> ssh -p 2222 azureuser@4.211.175.88
 ssh: connect to host 4.211.175.88 port 2222: Connection timed out
 ```
+
 
 
 

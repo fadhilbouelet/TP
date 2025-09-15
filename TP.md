@@ -60,9 +60,9 @@ Mode                 LastWriteTime         Length Name
 
 
 ```
-```
-C) Configurer un agent SSH sur votre poste
 
+C) Configurer un agent SSH sur votre poste
+```
 PS C:\Windows\system32> Get-WindowsCapability -Online | Where{ $_.Name -like 'OpenSSH-Client*' } 
 PS C:\Windows\system32> Get-WindowsCapability -Online -Name OpenSSH-Client
 
@@ -440,6 +440,7 @@ Sep 05 13:25:38 supervm python3[1060]: 2025-09-05T13:25:38.977108Z INFO CollectL
 Sep 05 13:25:51 supervm python3[1060]: 2025-09-05T13:25:51.654842Z INFO CollectLogsHandler ExtHandler Successfully collected logs. Archive size: 76980 b, elapsed time>Sep 05 13:25:51 supervm python3[1060]: 2025-09-05T13:25:51.674265Z INFO CollectLogsHandler ExtHandler Successfully uploaded logs.
 
 Sep 05 13:35:36 supervm python3[754]: 2025-09-05T13:35:36.537331Z INFO Daemon Agent WALinuxAgent-2.14.0.1 launched with command 'python3 -u bin/WALinuxAgent-2.14.0.1->Sep 05 13:50:40 supervm python3[1060]: 2025-09-05T13:50:40.236109Z INFO ExtHandler ExtHandler [HEARTBEAT] Agent WALinuxAgent-2.14.0.1 is running as the goal state age>~
+
 
 
 

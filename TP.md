@@ -860,8 +860,9 @@ azureuser@super-vm:~$
         modifiez le port d'écoute du serveur OpenSSH sur la VM pour le port 2222/tcp
         prouvez que le serveur OpenSSH écoute sur ce nouveau port (avec une commande ss sur la VM)
 
+
 ```
-        PS C:\Users\Fadhil\terraform> ssh azureuser@4.211.175.88
+PS C:\Users\Fadhil\terraform> ssh azureuser@4.211.175.88
 Welcome to Ubuntu 20.04.6 LTS (GNU/Linux 5.15.0-1089-azure x86_64)
 
  * Documentation:  https://help.ubuntu.com
@@ -907,6 +908,7 @@ LISTEN    0         128                   [::]:2222                [::]:*       
  PS C:\Users\Fadhil\terraform> ssh -p 2222 azureuser@4.211.175.88
 ssh: connect to host 4.211.175.88 port 2222: Connection timed out
 ```
+
 
 
 

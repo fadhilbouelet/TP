@@ -622,6 +622,7 @@ azurerm_linux_virtual_machine.main: Creation complete after 50s [id=/subscriptio
 Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
 ```
 
+
  🌞Ajouter un NSG à votre déploiement Terraform
 
     le trafic qui arrive sur l'interface réseau de la VM qui porte l'IP publique doit être filtré :
@@ -630,7 +631,7 @@ Apply complete! Resources: 3 added, 0 changed, 0 destroyed.
 
     je vous recommande de créer un nouveau fichier network.tf à côté de votre main.tf et y mettre cette conf
 
-'''
+```
 PS C:\Users\Fadhil\terraform> terraform init
 Initializing the backend...
 Initializing provider plugins...
@@ -913,6 +914,7 @@ LISTEN    0         128                   [::]:2222                [::]:*       
  PS C:\Users\Fadhil\terraform> ssh -p 2222 azureuser@4.211.175.88
 ssh: connect to host 4.211.175.88 port 2222: Connection timed out
 ```
+
 
 
 

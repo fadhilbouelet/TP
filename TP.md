@@ -61,8 +61,7 @@ Mode                 LastWriteTime         Length Name
 
 C) Configurer un agent SSH sur votre poste
 ```
-PS C:\Windows\system32> Get-WindowsCapability -Online | Where{ $_.Name -like 'OpenSSH-Client*' }```
-
+PS C:\Windows\system32> Get-WindowsCapability -Online | Where{ $_.Name -like 'OpenSSH-Client*' }
 PS C:\Windows\system32> Get-WindowsCapability -Online -Name OpenSSH-Client
 
 
@@ -73,9 +72,6 @@ Description  :
 DownloadSize : 0
 InstallSize  : 0
 
-```
-
-```
 PS C:\Windows\system32> Add-WindowsCapability -Online -Name OpenSSH-Client
 
 
@@ -83,7 +79,7 @@ Path          :
 Online        : True
 RestartNeeded : False
 
-***PS C:\Windows\system32> Get-Service ssh-agent***
+PS C:\Windows\system32> Get-Service ssh-agent
 >>
 
 Status   Name               DisplayName
@@ -91,14 +87,14 @@ Status   Name               DisplayName
 Stopped  ssh-agent          OpenSSH Authentication Agent
 
 
-***PS C:\Windows\system32> Set-Service -Name ssh-agent -StartupType Manual***
->> ***Start-Service ssh-agent***
+PS C:\Windows\system32> Set-Service -Name ssh-agent -StartupType Manual
+>> Start-Service ssh-agent
 >>
-***PS C:\Windows\system32> Start-Service ssh-agent***
+PS C:\Windows\system32> Start-Service ssh-agent
 >>
-***PS C:\Windows\system32> Set-Service -Name ssh-agent -StartupType Automatic***
+PS C:\Windows\system32> Set-Service -Name ssh-agent -StartupType Automatic
 >>
-***PS C:\Windows\system32> ssh-add "$env:USERPROFILE\.ssh\cloud_tp1"
+PS C:\Windows\system32> ssh-add "$env:USERPROFILE\.ssh\cloud_tp1"
 >>
 Enter passphrase for C:\Users\Fadhil\.ssh\cloud_tp1:
 Identity added: C:\Users\Fadhil\.ssh\cloud_tp1 (TP1 Cloud) 
@@ -167,7 +163,6 @@ vous devrez préciser :
 quel utilisateur doit être créé à la création de la VM
 le fichier de clé utilisé pour se connecter à cet utilisateur
 comme ça, dès que la VM pop, on peut se co en SSH !
-
 
 
 ```
@@ -913,6 +908,7 @@ LISTEN    0         128                   [::]:2222                [::]:*       
  PS C:\Users\Fadhil\terraform> ssh -p 2222 azureuser@4.211.175.88
 ssh: connect to host 4.211.175.88 port 2222: Connection timed out
 ```
+
 
 
 

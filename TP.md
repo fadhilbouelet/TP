@@ -816,7 +816,7 @@ Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
 }
 ```
 
-    une commande ssh fonctionnelle
+🌞 une commande ssh fonctionnelle
         vers l'IP publique de la VM
         toujours sans mot de passe avec votre Agent SSH
 ```
@@ -856,7 +856,7 @@ See "man sudo_root" for details.
 azureuser@super-vm:~$
 ```
 
-    changement de port :
+🌞 changement de port :
         modifiez le port d'écoute du serveur OpenSSH sur la VM pour le port 2222/tcp
         prouvez que le serveur OpenSSH écoute sur ce nouveau port (avec une commande ss sur la VM)
 
@@ -908,6 +908,7 @@ LISTEN    0         128                   [::]:2222                [::]:*       
  PS C:\Users\Fadhil\terraform> ssh -p 2222 azureuser@4.211.175.88
 ssh: connect to host 4.211.175.88 port 2222: Connection timed out
 ```
+
 
 
 

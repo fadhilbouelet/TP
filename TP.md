@@ -910,6 +910,92 @@ ssh: connect to host 4.211.175.88 port 2222: Connection timed out
 ```
 
 
+1. Adapter le plan Terraform¶
+
+🌞 Donner un nom DNS à votre VM
+
+    avec Terraform, suffit d'ajouter une propriété domain_name_label sur la ressource azurerm_public_ip
+    go terraform apply après !
+
+```PS C:\Users\Fadhil\terraform> terraform apply
+azurerm_resource_group.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet]
+azurerm_network_security_group.vm_nsg: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkSecurityGroups/mon-projet-nsg]
+azurerm_public_ip.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/publicIPAddresses/vm-ip]
+azurerm_virtual_network.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/virtualNetworks/vm-vnet]
+azurerm_subnet.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/virtualNetworks/vm-vnet/subnets/vm-subnet]
+azurerm_network_interface.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkInterfaces/vm-nic]
+azurerm_network_interface_security_group_association.nsg_association: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkInterfaces/vm-nic|/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkSecurityGroups/mon-projet-nsg]
+azurerm_linux_virtual_machine.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Compute/virtualMachines/super-vm]
+
+Terraform used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # azurerm_public_ip.main will be updated in-place
+  ~ resource "azurerm_public_ip" "main" {
+      + domain_name_label       = "monvm-ssh-demo"
+        id                      = "/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/publicIPAddresses/vm-ip"
+        name                    = "vm-ip"
+        tags                    = {}
+        # (12 unchanged attributes hidden)
+    }
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+azurerm_public_ip.main: Modifying... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/publicIPAddresses/vm-ip]
+azurerm_public_ip.main: Still modifying... [id=/subscriptions/11a3389f-d095-47e7-b620-...rosoft.Network/publicIPAddresses/vm-ip, 00m10s elapsed]
+azurerm_public_ip.main: Modifications complete after 10s [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/publicIPAddresses/vm-ip]
+
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+```
+
+2. Ajouter un output custom à terraform apply¶
+
+🌞 Un ptit output nan ?
+    créez un fichier outputs.tf à côté de votre main.tf
+    doit afficher l'IP publique et le nom DNS de la VM
+
+```
+PS C:\Users\Fadhil\terraform> terraform apply
+azurerm_resource_group.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet]
+azurerm_network_security_group.vm_nsg: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkSecurityGroups/mon-projet-nsg]
+azurerm_public_ip.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/publicIPAddresses/vm-ip]
+azurerm_virtual_network.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/virtualNetworks/vm-vnet]
+azurerm_subnet.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/virtualNetworks/vm-vnet/subnets/vm-subnet]
+azurerm_network_interface.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkInterfaces/vm-nic]
+azurerm_network_interface_security_group_association.nsg_association: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkInterfaces/vm-nic|/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Network/networkSecurityGroups/mon-projet-nsg]
+azurerm_linux_virtual_machine.main: Refreshing state... [id=/subscriptions/11a3389f-d095-47e7-b620-80db81a05f5c/resourceGroups/mon-projet/providers/Microsoft.Compute/virtualMachines/super-vm]
+
+Changes to Outputs:
+  + public_dns = "monvm-ssh-demo.francecentral.cloudapp.azure.com"
+  + public_ip  = "4.211.175.88"
+
+You can apply this plan to save these new output values to the Terraform state, without changing any real infrastructure.
+
+Do you want to perform these actions?
+  Terraform will perform the actions described above.
+  Only 'yes' will be accepted to approve.
+
+  Enter a value: yes
+
+
+Apply complete! Resources: 0 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+public_dns = "monvm-ssh-demo.francecentral.cloudapp.azure.com"
+public_ip = "4.211.175.88"
+```
+
+
+
 
 
 
